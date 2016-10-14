@@ -1,6 +1,6 @@
-# DependencyWalker
+# DependencyWalker for .NET
 
-Show dependencies tree for .NET assemblies like old [Depend Walker](http://www.dependencywalker.com/) show it for non managed applications.
+Show dependencies tree for .NET assemblies like old [Dependency Walker](http://www.dependencywalker.com/) show it for non managed applications.
 
 To quickly start to use it, get latest [DependencyWalker.zip](https://github.com/isindicic/DependencyWalker.Net/releases/download/1.0/DependencyWalker.zip) and unzip it somewhere.
 Simply execute DependWalker.exe with assembly filename as command line argument or just execute DependWalker.exe from explorer and then assembly using user interface. 
