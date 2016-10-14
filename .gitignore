@@ -1,0 +1,18 @@
+# Distribution / packaging
+bin/
+Debug/
+*.ignore/
+
+# C# obj folder
+obj/
+
+# C# files
+*.suo
+*.user
+
+# dll and executables
+*.dll
+*.exe
+
+*.pdb
+*.xml
