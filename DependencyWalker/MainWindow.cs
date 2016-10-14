@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace SindaSoft.DependencyWalker
 {
@@ -90,8 +91,7 @@ namespace SindaSoft.DependencyWalker
         {
             Cursor.Current = Cursors.WaitCursor;
 
-            this.Text += " [" + String.Join(",", a.ToArray()) + "]";
-
+            this.Text = "DependencyWalker.Net - [" + String.Join(",",  a.Select(x => Path.GetFileName(x)).ToArray() ) + "]";
 
             if (w != null)
                 w.Dispose();
@@ -132,7 +132,8 @@ namespace SindaSoft.DependencyWalker
         private void btnSelectFiles_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Images (*.exe;*.dll)|*.exe;*.dll|" +
+            ofd.Title = "Please select .NET assembly to investigate dependencies";
+            ofd.Filter = ".NET assemblies (*.exe;*.dll)|*.exe;*.dll|" +
                          "All files (*.*)|*.*";
 
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)

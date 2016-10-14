@@ -236,7 +236,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainWindow";
-            this.Text = "Depends.Net";
+            this.Text = "DependencyWalker.Net";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.tcMain.ResumeLayout(false);
             this.tpReferenceTree.ResumeLayout(false);
