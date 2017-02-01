@@ -42,6 +42,7 @@
             this.tbErrors = new System.Windows.Forms.TextBox();
             this.cbShowGac = new System.Windows.Forms.CheckBox();
             this.btnSelectFiles = new System.Windows.Forms.Button();
+            this.btnRescan = new System.Windows.Forms.Button();
             this.tcMain.SuspendLayout();
             this.tpReferenceTree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -224,11 +225,23 @@
             this.btnSelectFiles.UseVisualStyleBackColor = true;
             this.btnSelectFiles.Click += new System.EventHandler(this.btnSelectFiles_Click);
             // 
+            // btnRescan
+            // 
+            this.btnRescan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRescan.Location = new System.Drawing.Point(844, 593);
+            this.btnRescan.Name = "btnRescan";
+            this.btnRescan.Size = new System.Drawing.Size(154, 37);
+            this.btnRescan.TabIndex = 5;
+            this.btnRescan.Text = "Rescan";
+            this.btnRescan.UseVisualStyleBackColor = true;
+            this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1010, 636);
+            this.Controls.Add(this.btnRescan);
             this.Controls.Add(this.btnSelectFiles);
             this.Controls.Add(this.cbShowGac);
             this.Controls.Add(this.tcMain);
@@ -273,6 +286,7 @@
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Button btnSelectFiles;
+        private System.Windows.Forms.Button btnRescan;
 
     }
 }

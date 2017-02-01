@@ -12,8 +12,8 @@ namespace SindaSoft.DependencyWalker
 {
     public partial class MainWindow : Form
     {
-        public List<string> args;
-        Walker w = null;
+        private Walker w = null;
+        public List<string> currentListOfFiles = null;
 
         /// <summary>
         /// Form constructor
@@ -21,7 +21,7 @@ namespace SindaSoft.DependencyWalker
         /// <param name="a"></param>
         public MainWindow(string[] a)
         {
-            args = new List<string>(a);
+            currentListOfFiles = new List<string>(a);
             InitializeComponent();
         }
 
@@ -32,7 +32,7 @@ namespace SindaSoft.DependencyWalker
         /// <param name="e"></param>
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            if (args.Count == 0)
+            if (currentListOfFiles.Count == 0)
             {
                 /*
                 MessageBox.Show("Usage:\n\n\tDepends.Net.exe file1 [file2 [file3 [.. etc..]]]\n\nFor example:\n\n\tDepends.Net.exe program.exe lib1.dll lib2.dll", 
@@ -44,7 +44,7 @@ namespace SindaSoft.DependencyWalker
                 return;
             }
 
-            walkAndShowCollectedData(args);
+            walkAndShowCollectedData(currentListOfFiles);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace SindaSoft.DependencyWalker
         /// <param name="e"></param>
         private void cbShowGac_CheckedChanged(object sender, EventArgs e)
         {
-            walkAndShowCollectedData(args);  
+            walkAndShowCollectedData(currentListOfFiles);  
         }
 
         /// <summary>
@@ -138,9 +138,15 @@ namespace SindaSoft.DependencyWalker
 
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                args = new List<string>(ofd.FileNames);
-                walkAndShowCollectedData(args);
+                currentListOfFiles = new List<string>(ofd.FileNames);
+                walkAndShowCollectedData(currentListOfFiles);
             }
+        }
+
+        private void btnRescan_Click(object sender, EventArgs e)
+        {
+            if (currentListOfFiles.Count > 0)
+                walkAndShowCollectedData(currentListOfFiles);
         }
     }
 }
