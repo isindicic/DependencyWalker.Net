@@ -153,7 +153,12 @@ namespace SindaSoft.DependencyWalker
         {
 
         }
-
+        /// <summary>
+        /// Search TreeView for give text & perform the action
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="treeView"></param>
+        /// <param name="action"></param>
         void SearchAndDo(string searchText,TreeView treeView,Action<TreeView,TreeNode> action)
         {
             foreach (TreeNode node in treeView.Nodes)
@@ -165,7 +170,13 @@ namespace SindaSoft.DependencyWalker
                 SearchAndDo(searchText, treeView,node, action);
             }
 
-        }
+        }/// <summary>
+        /// Search the subnode under given tree node recursively & perform the action
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="treeView"></param>
+        /// <param name="treeNode"></param>
+        /// <param name="action"></param>
         void SearchAndDo(string searchText, TreeView treeView, TreeNode treeNode, Action<TreeView,TreeNode> action)
         {
             foreach (TreeNode node in treeNode.Nodes)
