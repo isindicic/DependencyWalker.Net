@@ -221,8 +221,6 @@ namespace SindaSoft.DependencyWalker
 
                 node.BackColor = SystemColors.Highlight; ;
                 node.ForeColor = SystemColors.HighlightText; ;
-                treeView.SelectedNode = node;
-                treeView.Focus();
                 if ( firstNode == default(TreeNode))
                 {
                     firstNode = node;
@@ -235,6 +233,7 @@ namespace SindaSoft.DependencyWalker
                 isColored = false;
             }else
             {
+                tvReferencesTree.ExpandAll();
                 tvReferencesTree.SelectedNode = firstNode;
                 tvReferencesTree.Focus();
                 isColored = true;
