@@ -43,7 +43,7 @@ namespace SindaSoft.DependencyWalker
                 */
                 return;
             }
-
+            tssMatchCounter.Text = "";
             walkAndShowCollectedData(currentListOfFiles);
         }
 
@@ -149,10 +149,6 @@ namespace SindaSoft.DependencyWalker
                 walkAndShowCollectedData(currentListOfFiles);
         }
 
-        private void searchTxt_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         /// <summary>
         /// Search TreeView for give text & perform the action
         /// </summary>
@@ -194,17 +190,19 @@ namespace SindaSoft.DependencyWalker
         private bool isColored = default(bool);
         private string prviousSearchString = string.Empty;
 
-        private void searchBtn_Click(object sender, EventArgs e)
+        private void searchTxt_TextChanged(object sender, EventArgs e)
         {
+            int matchCounter = 0;
+            tssMatchCounter.Text = "";
             if (tvReferencesTree.Nodes.Count == 0)
             {
+                searchTxt.Focus();
                 return;
             }
-            firstNode = default(TreeNode);
 
+            firstNode = default(TreeNode);
             var searchString = searchTxt.Text;
             
-
             // ClearColor
             if ( isColored )
             {
@@ -217,10 +215,9 @@ namespace SindaSoft.DependencyWalker
             
             SearchAndDo(searchString, tvReferencesTree, (treeView, node) =>
             {
-                
-
-                node.BackColor = SystemColors.Highlight; ;
-                node.ForeColor = SystemColors.HighlightText; ;
+                matchCounter++;
+                node.BackColor = Color.Yellow; // SystemColors.Highlight;
+                node.ForeColor = Color.Black; // SystemColors.HighlightText; ;
                 if ( firstNode == default(TreeNode))
                 {
                     firstNode = node;
@@ -231,26 +228,31 @@ namespace SindaSoft.DependencyWalker
             if (firstNode == default(TreeNode))
             {
                 isColored = false;
-            }else
+            }
+            else
             {
                 tvReferencesTree.ExpandAll();
                 tvReferencesTree.SelectedNode = firstNode;
                 tvReferencesTree.Focus();
                 isColored = true;
-
             }
 
             prviousSearchString = searchString;
-
-
+            tssMatchCounter.Text = !String.IsNullOrEmpty(searchString) ? String.Format("{0} matches found", matchCounter) 
+                                                                       : String.Empty;
+            searchTxt.Focus();
         }
     }
+
     public static class Extensions
     {
         public static bool CaseInsensitiveContains(this string text, string value,
             StringComparison stringComparison = StringComparison.CurrentCultureIgnoreCase)
         {
-            return text.IndexOf(value, stringComparison) >= 0;
+            if (String.IsNullOrEmpty(value))
+                return false;
+            else
+                return text.IndexOf(value, stringComparison) >= 0;
         }
     }
 }
