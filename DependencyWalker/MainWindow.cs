@@ -81,7 +81,7 @@ namespace SindaSoft.DependencyWalker
         /// <param name="e"></param>
         private void cbShowGac_CheckedChanged(object sender, EventArgs e)
         {
-            walkAndShowCollectedData(currentListOfFiles);  
+            walkAndShowCollectedData(currentListOfFiles);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace SindaSoft.DependencyWalker
         {
             Cursor.Current = Cursors.WaitCursor;
 
-            this.Text = "DependencyWalker.Net - [" + String.Join(",",  a.Select(x => Path.GetFileName(x)).ToArray() ) + "]";
+            this.Text = "DependencyWalker.Net - [" + String.Join(",", a.Select(x => Path.GetFileName(x)).ToArray()) + "]";
 
             if (w != null)
                 w.Dispose();
@@ -147,6 +147,110 @@ namespace SindaSoft.DependencyWalker
         {
             if (currentListOfFiles.Count > 0)
                 walkAndShowCollectedData(currentListOfFiles);
+        }
+
+        private void searchTxt_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// Search TreeView for give text & perform the action
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="treeView"></param>
+        /// <param name="action"></param>
+        void SearchAndDo(string searchText,TreeView treeView,Action<TreeView,TreeNode> action)
+        {
+            foreach (TreeNode node in treeView.Nodes)
+            {
+                if (node.Text.CaseInsensitiveContains(searchText))
+                {
+                    action(treeView,node);
+                }
+                SearchAndDo(searchText, treeView,node, action);
+            }
+
+        }/// <summary>
+        /// Search the subnode under given tree node recursively & perform the action
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="treeView"></param>
+        /// <param name="treeNode"></param>
+        /// <param name="action"></param>
+        void SearchAndDo(string searchText, TreeView treeView, TreeNode treeNode, Action<TreeView,TreeNode> action)
+        {
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                if (node.Text.CaseInsensitiveContains(searchText))
+                {
+                    action(treeView,node);
+                }
+                SearchAndDo(searchText, treeView, node,action);
+
+            }
+        }
+
+        private TreeNode firstNode;
+        private bool isColored = default(bool);
+        private string prviousSearchString = string.Empty;
+
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+            if (tvReferencesTree.Nodes.Count == 0)
+            {
+                return;
+            }
+            firstNode = default(TreeNode);
+
+            var searchString = searchTxt.Text;
+            
+
+            // ClearColor
+            if ( isColored )
+            {
+                SearchAndDo(prviousSearchString, tvReferencesTree, (treeView,node) =>
+                 {
+                     node.BackColor = Color.Empty;
+                     node.ForeColor = Color.Empty;
+                 });
+            }
+            
+            SearchAndDo(searchString, tvReferencesTree, (treeView, node) =>
+            {
+                
+
+                node.BackColor = SystemColors.Highlight; ;
+                node.ForeColor = SystemColors.HighlightText; ;
+                if ( firstNode == default(TreeNode))
+                {
+                    firstNode = node;
+                }
+            });
+
+
+            if (firstNode == default(TreeNode))
+            {
+                isColored = false;
+            }else
+            {
+                tvReferencesTree.ExpandAll();
+                tvReferencesTree.SelectedNode = firstNode;
+                tvReferencesTree.Focus();
+                isColored = true;
+
+            }
+
+            prviousSearchString = searchString;
+
+
+        }
+    }
+    public static class Extensions
+    {
+        public static bool CaseInsensitiveContains(this string text, string value,
+            StringComparison stringComparison = StringComparison.CurrentCultureIgnoreCase)
+        {
+            return text.IndexOf(value, stringComparison) >= 0;
         }
     }
 }
