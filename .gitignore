@@ -2,6 +2,7 @@
 bin/
 Debug/
 *.ignore/
+.vs/
 
 # C# obj folder
 obj/
