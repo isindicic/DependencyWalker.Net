@@ -14,6 +14,7 @@ namespace SindaSoft.DependencyWalker
     {
         private Walker w = null;
         public List<string> currentListOfFiles = null;
+        public List<string> listOfTypes = null;
 
         /// <summary>
         /// Form constructor
@@ -43,6 +44,8 @@ namespace SindaSoft.DependencyWalker
                 */
                 return;
             }
+
+            tssLoadedInfo.Text = 
             tssMatchCounter.Text = "";
             walkAndShowCollectedData(currentListOfFiles);
         }
@@ -100,18 +103,32 @@ namespace SindaSoft.DependencyWalker
             w.parent = this;
             w.includeGAC = cbShowGac.Checked;
             w.runIt();
+            
+            tssLoadedInfo.Text =   (w.refass.Count  + w.listOfFilenames2Check.Count) +  " modules/" + w.type2ass.Count + " types";
+            
+            this.listOfTypes = w.type2ass.Keys.ToList();
+            this.listOfTypes.Sort();
+            this.searchTypeTxt_TextChanged(this, null);
 
-            tbUsedBy.Text = "";
-            this.tbListOfReferences.Text = "";
-            foreach (string s in w.refass.Keys)
-                this.tbListOfReferences.Text += s + "\r\n";
-
-            this.tbListOfReferences.Text += "\r\n\r\n\r\n";
-            foreach (string s in w.refass2filename.Keys)
+            if (w.refass.Count > 0)
             {
-                this.tbListOfReferences.Text += (new Uri(w.refass2filename[s])).AbsolutePath
-                                                + "\r\n";
+                if (!tcMain.TabPages.Contains(tpListOfReferences))
+                    tcMain.TabPages.Add(tpListOfReferences);
+
+                tbUsedBy.Text = "";
+                this.tbListOfReferences.Text = "";
+                foreach (string s in w.refass.Keys)
+                    this.tbListOfReferences.Text += s + "\r\n";
+
+                this.tbListOfReferences.Text += "\r\n\r\n\r\n";
+                foreach (string s in w.refass2filename.Keys)
+                {
+                    this.tbListOfReferences.Text += (new Uri(w.refass2filename[s])).AbsolutePath
+                                                    + "\r\n";
+                }
             }
+            else
+                tcMain.TabPages.Remove(tpListOfReferences);
 
             if (w.errors.Count > 0)
             {
@@ -241,6 +258,22 @@ namespace SindaSoft.DependencyWalker
             tssMatchCounter.Text = !String.IsNullOrEmpty(searchString) ? String.Format("{0} matches found", matchCounter) 
                                                                        : String.Empty;
             searchTxt.Focus();
+        }
+
+        private void searchTypeTxt_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(searchTypeTxt.Text))
+                lbTypes.DataSource = listOfTypes;
+            else
+                lbTypes.DataSource = listOfTypes.Where( x=> x.ToLower().Contains(searchTypeTxt.Text.ToLower())).ToList();
+        }
+
+        private void lbTypes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbTypes.SelectedItem == null)
+                lblAssemblyWithType.Text = "";
+            else
+                lblAssemblyWithType.Text = w.type2ass[lbTypes.SelectedItem as string];
         }
     }
 

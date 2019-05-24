@@ -20,6 +20,8 @@ namespace SindaSoft.DependencyWalker
         public Dictionary<string, bool> refass2isGAC;
         public Dictionary<string, string> errors;
 
+        public Dictionary<string, string> type2ass;
+
         public string file2inspect = null;
 
         public Walker(List<string> args)
@@ -67,6 +69,7 @@ namespace SindaSoft.DependencyWalker
             ref2node = new Dictionary<string, TreeNode>();
             refass2filename = new Dictionary<string, string>();
             refass2isGAC = new Dictionary<string, bool>();
+            type2ass = new Dictionary<string, string>();
             errors = new Dictionary<string, string>();
             
             // Clear tree control
@@ -119,6 +122,9 @@ namespace SindaSoft.DependencyWalker
                             CloneNodes(ref2node[an.Name], tn2);
                     }
                 }
+
+                foreach(Type t in a.GetTypes())
+                    type2ass[getCSharpFromType(t)] = name;
             }
             catch (Exception ex)
             {
@@ -168,6 +174,10 @@ namespace SindaSoft.DependencyWalker
                             CloneNodes(ref2node[an.Name], tn2);
                     }
                 }
+
+                foreach (Type t in a.GetTypes())
+                    type2ass[getCSharpFromType(t)] = anr.Name;
+
             }
             catch (Exception ex)
             {
@@ -178,6 +188,25 @@ namespace SindaSoft.DependencyWalker
                 expandTree2Node(tn);
             }
         }
+
+
+        private string getCSharpFromType(Type t)
+        {
+            string name = t.FullName;
+            if (t.IsGenericType)
+            {
+                if (t.IsNested && t.DeclaringType.IsGenericType)
+                    return name; // This is invalid !!! But let's use short name ... 
+                string className = name.Substring(0, t.Name.IndexOf('`'));
+                List<string> args = new List<string>();
+                foreach (Type arg in t.GetGenericArguments())
+                    args.Add( getCSharpFromType(arg) );
+                return className + "<" + String.Join(",", args.ToArray()) + ">";
+            }
+            else
+                return name;
+        }
+
 
         /// <summary>
         /// Check if this assembly should be included in report.
