@@ -13,6 +13,16 @@ namespace SindaSoft.DependencyWalker
         [STAThread]
         static void Main(string[] args)
         {
+            // Thanks to https://blogs.msdn.microsoft.com/shawnfa/2009/06/08/more-implicit-uses-of-cas-policy-loadfromremotesources/
+            System.Security.PermissionSet trustedLoadFromRemoteSourceGrantSet = new System.Security.PermissionSet(System.Security.Permissions.PermissionState.Unrestricted);
+            AppDomainSetup trustedLoadFromRemoteSourcesSetup = new AppDomainSetup();
+            trustedLoadFromRemoteSourcesSetup.ApplicationBase =AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            AppDomain trustedRemoteLoadDomain = AppDomain.CreateDomain("Trusted LoadFromRemoteSources Domain",
+                                                                       null,
+                                                                       trustedLoadFromRemoteSourcesSetup,
+                                                                       trustedLoadFromRemoteSourceGrantSet);
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

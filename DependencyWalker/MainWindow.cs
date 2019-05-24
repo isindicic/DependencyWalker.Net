@@ -33,6 +33,13 @@ namespace SindaSoft.DependencyWalker
         /// <param name="e"></param>
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            tvReferencesTree.AllowDrop = true;
+            tvReferencesTree.DragEnter += new DragEventHandler(tvReferencesTree_DragEnter);
+            tvReferencesTree.DragDrop += new DragEventHandler(tvReferencesTree_DragDrop);
+
+
+
+
             if (currentListOfFiles.Count == 0)
             {
                 /*
@@ -49,6 +56,22 @@ namespace SindaSoft.DependencyWalker
             tssMatchCounter.Text = "";
             walkAndShowCollectedData(currentListOfFiles);
         }
+
+        void tvReferencesTree_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        void tvReferencesTree_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            tssLoadedInfo.Text =
+            tssMatchCounter.Text = "";
+            walkAndShowCollectedData(files.ToList());
+        }
+
 
         /// <summary>
         /// When someone click on treeview
@@ -97,7 +120,13 @@ namespace SindaSoft.DependencyWalker
             this.Text = "DependencyWalker.Net - [" + String.Join(",", a.Select(x => Path.GetFileName(x)).ToArray()) + "]";
 
             if (w != null)
+            {
                 w.Dispose();
+                w = null;
+            }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();  
 
             w = new Walker(a);
             w.parent = this;
