@@ -126,6 +126,19 @@ namespace SindaSoft.DependencyWalker
                 foreach(Type t in a.GetTypes())
                     type2ass[getCSharpFromType(t)] = name;
             }
+            catch (System.Reflection.ReflectionTypeLoadException ex)
+            {
+                TreeNode tn = parent.tvReferencesTree.Nodes.Add(name);
+                tn.Text += " - Error loading";
+                tn.ForeColor = Color.Red;
+                errors[tn.Text] = String.Join("--->", treeNode2refList(tn).ToArray()) + "\r\n" + ex.ToString();
+
+                errors[tn.Text] += "\r\n--- Loader exceptions -----\r\n";
+                foreach (Exception eee in ex.LoaderExceptions)
+                    errors[tn.Text] += "\t" + eee.ToString() + "\r\n";
+
+                expandTree2Node(tn);
+            }
             catch (Exception ex)
             {
                 TreeNode tn = parent.tvReferencesTree.Nodes.Add(name);
@@ -178,6 +191,19 @@ namespace SindaSoft.DependencyWalker
                 foreach (Type t in a.GetTypes())
                     type2ass[getCSharpFromType(t)] = anr.Name;
 
+            }
+            catch (System.Reflection.ReflectionTypeLoadException ex)
+            {
+                tn.Text += " - Error loading";
+                tn.ForeColor = Color.Red;
+
+                errors[tn.Text] = String.Join("--->", treeNode2refList(tn).ToArray()) + "\r\n" + ex.ToString();
+
+                errors[tn.Text] += "\r\n--- Loader exceptions -----\r\n";
+                foreach(Exception eee in ex.LoaderExceptions)
+                    errors[tn.Text] += "\t" + eee.ToString() + "\r\n";
+
+                expandTree2Node(tn);
             }
             catch (Exception ex)
             {
