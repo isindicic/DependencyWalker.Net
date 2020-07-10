@@ -74,7 +74,7 @@
             this.tvReferencesTree.Location = new System.Drawing.Point(0, 0);
             this.tvReferencesTree.Margin = new System.Windows.Forms.Padding(4);
             this.tvReferencesTree.Name = "tvReferencesTree";
-            this.tvReferencesTree.Size = new System.Drawing.Size(331, 527);
+            this.tvReferencesTree.Size = new System.Drawing.Size(331, 531);
             this.tvReferencesTree.TabIndex = 0;
             this.tvReferencesTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvReferencesTree_AfterSelect);
             // 
@@ -87,7 +87,7 @@
             this.tbUsedBy.Multiline = true;
             this.tbUsedBy.Name = "tbUsedBy";
             this.tbUsedBy.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbUsedBy.Size = new System.Drawing.Size(660, 293);
+            this.tbUsedBy.Size = new System.Drawing.Size(660, 295);
             this.tbUsedBy.TabIndex = 1;
             this.tbUsedBy.WordWrap = false;
             // 
@@ -110,11 +110,11 @@
             // tpReferenceTree
             // 
             this.tpReferenceTree.Controls.Add(this.splitContainer1);
-            this.tpReferenceTree.Location = new System.Drawing.Point(4, 29);
+            this.tpReferenceTree.Location = new System.Drawing.Point(4, 25);
             this.tpReferenceTree.Margin = new System.Windows.Forms.Padding(4);
             this.tpReferenceTree.Name = "tpReferenceTree";
             this.tpReferenceTree.Padding = new System.Windows.Forms.Padding(4);
-            this.tpReferenceTree.Size = new System.Drawing.Size(1004, 535);
+            this.tpReferenceTree.Size = new System.Drawing.Size(1004, 539);
             this.tpReferenceTree.TabIndex = 0;
             this.tpReferenceTree.Text = "References Tree";
             this.tpReferenceTree.UseVisualStyleBackColor = true;
@@ -133,7 +133,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(996, 527);
+            this.splitContainer1.Size = new System.Drawing.Size(996, 531);
             this.splitContainer1.SplitterDistance = 331;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
@@ -152,8 +152,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.propertyGrid1);
-            this.splitContainer2.Size = new System.Drawing.Size(660, 527);
-            this.splitContainer2.SplitterDistance = 293;
+            this.splitContainer2.Size = new System.Drawing.Size(660, 531);
+            this.splitContainer2.SplitterDistance = 295;
             this.splitContainer2.TabIndex = 3;
             // 
             // propertyGrid1
@@ -161,17 +161,17 @@
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(660, 230);
+            this.propertyGrid1.Size = new System.Drawing.Size(660, 232);
             this.propertyGrid1.TabIndex = 2;
             // 
             // tpListOfReferences
             // 
             this.tpListOfReferences.Controls.Add(this.tbListOfReferences);
-            this.tpListOfReferences.Location = new System.Drawing.Point(4, 29);
+            this.tpListOfReferences.Location = new System.Drawing.Point(4, 25);
             this.tpListOfReferences.Margin = new System.Windows.Forms.Padding(4);
             this.tpListOfReferences.Name = "tpListOfReferences";
             this.tpListOfReferences.Padding = new System.Windows.Forms.Padding(4);
-            this.tpListOfReferences.Size = new System.Drawing.Size(1004, 535);
+            this.tpListOfReferences.Size = new System.Drawing.Size(1004, 539);
             this.tpListOfReferences.TabIndex = 1;
             this.tpListOfReferences.Text = "List of references";
             this.tpListOfReferences.UseVisualStyleBackColor = true;
@@ -185,7 +185,7 @@
             this.tbListOfReferences.Multiline = true;
             this.tbListOfReferences.Name = "tbListOfReferences";
             this.tbListOfReferences.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbListOfReferences.Size = new System.Drawing.Size(996, 527);
+            this.tbListOfReferences.Size = new System.Drawing.Size(996, 531);
             this.tbListOfReferences.TabIndex = 2;
             this.tbListOfReferences.WordWrap = false;
             // 
@@ -194,9 +194,9 @@
             this.tpTypes.Controls.Add(this.lblAssemblyWithType);
             this.tpTypes.Controls.Add(this.searchTypeTxt);
             this.tpTypes.Controls.Add(this.lbTypes);
-            this.tpTypes.Location = new System.Drawing.Point(4, 29);
+            this.tpTypes.Location = new System.Drawing.Point(4, 25);
             this.tpTypes.Name = "tpTypes";
-            this.tpTypes.Size = new System.Drawing.Size(1004, 535);
+            this.tpTypes.Size = new System.Drawing.Size(1004, 539);
             this.tpTypes.TabIndex = 3;
             this.tpTypes.Text = "List of types";
             this.tpTypes.UseVisualStyleBackColor = true;
@@ -219,7 +219,7 @@
             this.searchTypeTxt.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.searchTypeTxt.Location = new System.Drawing.Point(8, 14);
             this.searchTypeTxt.Name = "searchTypeTxt";
-            this.searchTypeTxt.Size = new System.Drawing.Size(986, 27);
+            this.searchTypeTxt.Size = new System.Drawing.Size(986, 23);
             this.searchTypeTxt.TabIndex = 1;
             this.searchTypeTxt.TextChanged += new System.EventHandler(this.searchTypeTxt_TextChanged);
             // 
@@ -230,19 +230,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbTypes.Font = new System.Drawing.Font("Consolas", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lbTypes.FormattingEnabled = true;
-            this.lbTypes.ItemHeight = 20;
+            this.lbTypes.ItemHeight = 17;
             this.lbTypes.Location = new System.Drawing.Point(8, 55);
             this.lbTypes.Name = "lbTypes";
-            this.lbTypes.Size = new System.Drawing.Size(986, 424);
+            this.lbTypes.Size = new System.Drawing.Size(986, 412);
             this.lbTypes.TabIndex = 0;
             this.lbTypes.SelectedIndexChanged += new System.EventHandler(this.lbTypes_SelectedIndexChanged);
             // 
             // tpErrors
             // 
             this.tpErrors.Controls.Add(this.tbErrors);
-            this.tpErrors.Location = new System.Drawing.Point(4, 29);
+            this.tpErrors.Location = new System.Drawing.Point(4, 25);
             this.tpErrors.Name = "tpErrors";
-            this.tpErrors.Size = new System.Drawing.Size(1004, 535);
+            this.tpErrors.Size = new System.Drawing.Size(1004, 539);
             this.tpErrors.TabIndex = 2;
             this.tpErrors.Text = "Errors";
             this.tpErrors.UseVisualStyleBackColor = true;
@@ -256,7 +256,7 @@
             this.tbErrors.Multiline = true;
             this.tbErrors.Name = "tbErrors";
             this.tbErrors.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbErrors.Size = new System.Drawing.Size(1004, 535);
+            this.tbErrors.Size = new System.Drawing.Size(1004, 539);
             this.tbErrors.TabIndex = 3;
             this.tbErrors.WordWrap = false;
             // 
@@ -267,7 +267,7 @@
             this.cbShowGac.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShowGac.Location = new System.Drawing.Point(6, 56);
             this.cbShowGac.Name = "cbShowGac";
-            this.cbShowGac.Size = new System.Drawing.Size(204, 24);
+            this.cbShowGac.Size = new System.Drawing.Size(167, 20);
             this.cbShowGac.TabIndex = 3;
             this.cbShowGac.Text = "Show .NET assemblies";
             this.cbShowGac.UseVisualStyleBackColor = true;
@@ -279,7 +279,7 @@
             this.btnSelectFiles.Name = "btnSelectFiles";
             this.btnSelectFiles.Size = new System.Drawing.Size(154, 37);
             this.btnSelectFiles.TabIndex = 4;
-            this.btnSelectFiles.Text = "Select file";
+            this.btnSelectFiles.Text = "Select files";
             this.btnSelectFiles.UseVisualStyleBackColor = true;
             this.btnSelectFiles.Click += new System.EventHandler(this.btnSelectFiles_Click);
             // 
@@ -298,7 +298,7 @@
             // 
             this.searchTxt.Location = new System.Drawing.Point(258, 22);
             this.searchTxt.Name = "searchTxt";
-            this.searchTxt.Size = new System.Drawing.Size(250, 26);
+            this.searchTxt.Size = new System.Drawing.Size(250, 22);
             this.searchTxt.TabIndex = 6;
             this.searchTxt.TextChanged += new System.EventHandler(this.searchTxt_TextChanged);
             // 
@@ -307,7 +307,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(185, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 20);
+            this.label1.Size = new System.Drawing.Size(54, 16);
             this.label1.TabIndex = 8;
             this.label1.Text = "Search:";
             // 
@@ -316,29 +316,29 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssMatchCounter,
             this.tssLoadedInfo});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 633);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 636);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1010, 25);
+            this.statusStrip1.Size = new System.Drawing.Size(1010, 22);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // tssMatchCounter
             // 
             this.tssMatchCounter.Name = "tssMatchCounter";
-            this.tssMatchCounter.Size = new System.Drawing.Size(37, 20);
+            this.tssMatchCounter.Size = new System.Drawing.Size(31, 17);
             this.tssMatchCounter.Text = "xxxx";
             // 
             // tssLoadedInfo
             // 
             this.tssLoadedInfo.Name = "tssLoadedInfo";
-            this.tssLoadedInfo.Size = new System.Drawing.Size(958, 20);
+            this.tssLoadedInfo.Size = new System.Drawing.Size(964, 17);
             this.tssLoadedInfo.Spring = true;
             this.tssLoadedInfo.Text = "yyy";
             this.tssLoadedInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1010, 658);
             this.Controls.Add(this.statusStrip1);
