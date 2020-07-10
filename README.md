@@ -2,7 +2,7 @@
 
 Show dependencies tree for .NET assemblies similar to how the old [Dependency Walker](http://www.dependencywalker.com/) shows them for non-managed applications.
 
-To quickly start to use it, get latest [DependencyWalker.zip](https://github.com/isindicic/DependencyWalker.Net/releases/download/1.0/DependencyWalker.zip) and unzip it somewhere.
+To quickly start to use it, get the latest [DependencyWalker.zip](https://github.com/isindicic/DependencyWalker.Net/releases/download/1.0/DependencyWalker.zip) and unzip it on a local drive.
 Simply execute DependWalker.exe with assembly filename as command line argument or just execute DependWalker.exe from explorer and then select assemblies using user interface. 
 
 To successfully compile the solution you'll need Visual Studio 2010. 
