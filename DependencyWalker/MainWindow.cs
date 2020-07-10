@@ -179,7 +179,7 @@ namespace SindaSoft.DependencyWalker
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Multiselect = true;
-            ofd.Title = "Please select .NET assembly(s) to investigate dependencies";
+            ofd.Title = "Please select one or more .NET assemblies to investigate dependencies";
             ofd.Filter = ".NET assemblies (*.exe;*.dll)|*.exe;*.dll|" +
                          "All files (*.*)|*.*";
 
