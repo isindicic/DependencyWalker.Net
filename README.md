@@ -9,5 +9,5 @@ To successfully compile the solution you'll need Visual Studio 2010 and load Dep
 
 Solution targets .NET 4.0 and application requires .Net Framework 4.0 installed in order to run. However, the application will work with assemblies that target lower version of framework without any problems.
 
-**.NET5.0 support - BETA VERSION**
+##.NET5.0 support - BETA VERSION##
 You are also able to compile program to target .NET5.0. This is still in development, but, in case you want to play with it, you'll need to run Visual Studio 2019 and load DependencyWalker.Net5.sln. 
