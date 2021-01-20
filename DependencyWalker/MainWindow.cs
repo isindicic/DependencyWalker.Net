@@ -33,6 +33,9 @@ namespace SindaSoft.DependencyWalker
         /// <param name="e"></param>
         private void MainWindow_Load(object sender, EventArgs e)
         {
+#if NETCOREAPP
+            cbShowGac.Visible = false;  // No GAC in .NET Core
+#endif
             tvReferencesTree.AllowDrop = true;
             tvReferencesTree.DragEnter += new DragEventHandler(tvReferencesTree_DragEnter);
             tvReferencesTree.DragDrop += new DragEventHandler(tvReferencesTree_DragDrop);

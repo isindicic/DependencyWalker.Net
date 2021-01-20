@@ -252,6 +252,9 @@ namespace SindaSoft.DependencyWalker
 
         private bool isItInGlobalAssemblyCache(AssemblyName an)
         {
+#if NETCOREAPP
+            return true;    // No GAC in .NET Core
+#else
             try
             {
                 Assembly a = Assembly.Load(an.FullName);
@@ -263,6 +266,7 @@ namespace SindaSoft.DependencyWalker
             {
                 return false;    // Error ?! .. pass it .. 
             }
+#endif
         }
 
         private void CloneNodes(TreeNode src, TreeNode dest)
