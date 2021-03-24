@@ -18,6 +18,7 @@ namespace SindaSoft.DependencyWalker
         public Dictionary<string, TreeNode> ref2node;
         public Dictionary<string, string> refass2filename;
         public Dictionary<string, bool> refass2isGAC;
+        public Dictionary<string, string> refass2dotnetversion;
         public Dictionary<string, string> errors;
 
         public Dictionary<string, string> type2ass;
@@ -69,6 +70,7 @@ namespace SindaSoft.DependencyWalker
             ref2node = new Dictionary<string, TreeNode>();
             refass2filename = new Dictionary<string, string>();
             refass2isGAC = new Dictionary<string, bool>();
+            refass2dotnetversion = new Dictionary<string, string>();
             type2ass = new Dictionary<string, string>();
             errors = new Dictionary<string, string>();
             
@@ -163,6 +165,7 @@ namespace SindaSoft.DependencyWalker
 
                 refass2filename[anr.Name] = a.CodeBase; // Save assembly file location... 
                 refass2isGAC[anr.Name] = a.GlobalAssemblyCache; // Is it GAC ? 
+                refass2dotnetversion[anr.Name] = a.ImageRuntimeVersion;
 
                 AssemblyName[] anames = a.GetReferencedAssemblies();
                 foreach (AssemblyName an in anames)
