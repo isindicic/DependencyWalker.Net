@@ -165,7 +165,20 @@ namespace SindaSoft.DependencyWalker
 
                 refass2filename[anr.Name] = a.CodeBase; // Save assembly file location... 
                 refass2isGAC[anr.Name] = a.GlobalAssemblyCache; // Is it GAC ? 
-                refass2dotnetversion[anr.Name] = a.ImageRuntimeVersion;
+                refass2dotnetversion[anr.Name] = ".NET CLR " + a.ImageRuntimeVersion;
+
+                try
+                {
+                    // This work only for .NET > 4
+                    var attribute = a.GetCustomAttributes(true)
+                                     .OfType<System.Runtime.Versioning.TargetFrameworkAttribute>()
+                                     .First();
+
+                    refass2dotnetversion[anr.Name] =  attribute.FrameworkDisplayName;
+                }
+                catch 
+                { 
+                }
 
                 AssemblyName[] anames = a.GetReferencedAssemblies();
                 foreach (AssemblyName an in anames)

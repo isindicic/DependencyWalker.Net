@@ -88,7 +88,12 @@ namespace SindaSoft.DependencyWalker
             {
                 if (w.refass.ContainsKey(node.Text))
                 {
-                    tbUsedBy.Text = node.Text + " (.NET "+w.refass2dotnetversion[node.Text]+") IS USED BY:\r\n\r\n";
+                    tbUsedBy.Text = node.Text;
+
+                    if(String.IsNullOrEmpty(w.refass2dotnetversion[node.Text]))
+                        tbUsedBy.Text +=  " ("+w.refass2dotnetversion[node.Text]+")";
+
+                    tbUsedBy.Text += " IS USED BY:\r\n\r\n";
                     tbUsedBy.Text += w.refass[node.Text].Replace("\n", "\r\n");
                 }
                 else if (w.errors.ContainsKey(node.Text))
