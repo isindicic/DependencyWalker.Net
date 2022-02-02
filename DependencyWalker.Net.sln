@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyWalker.Net", "DependencyWalker\DependencyWalker.Net.csproj", "{2249E403-BFED-4144-8196-6E833B81BC7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyWalker.Net.Cli", "DependencyWalker.Net.Cli\DependencyWalker.Net.Cli.csproj", "{8AAE0BB7-BD7C-46A3-977D-D4964271DC32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{2249E403-BFED-4144-8196-6E833B81BC7A}.Debug|x86.Build.0 = Debug|x86
 		{2249E403-BFED-4144-8196-6E833B81BC7A}.Release|x86.ActiveCfg = Release|x86
 		{2249E403-BFED-4144-8196-6E833B81BC7A}.Release|x86.Build.0 = Release|x86
+		{8AAE0BB7-BD7C-46A3-977D-D4964271DC32}.Debug|x86.ActiveCfg = Debug|x86
+		{8AAE0BB7-BD7C-46A3-977D-D4964271DC32}.Debug|x86.Build.0 = Debug|x86
+		{8AAE0BB7-BD7C-46A3-977D-D4964271DC32}.Release|x86.ActiveCfg = Release|x86
+		{8AAE0BB7-BD7C-46A3-977D-D4964271DC32}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
