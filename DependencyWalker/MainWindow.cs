@@ -90,7 +90,7 @@ namespace SindaSoft.DependencyWalker
                 {
                     tbUsedBy.Text = node.Text;
 
-                    if(String.IsNullOrEmpty(w.refass2dotnetversion[node.Text]))
+                    if(!String.IsNullOrEmpty(w.refass2dotnetversion[node.Text]))
                         tbUsedBy.Text +=  " ("+w.refass2dotnetversion[node.Text]+")";
 
                     tbUsedBy.Text += " IS USED BY:\r\n\r\n";
