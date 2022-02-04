@@ -233,6 +233,8 @@ namespace SindaSoft.DependencyWalker
     public class AssemblyInfo
     {
         public string Name { get; set; }
+        public string FullName { get; set; }
+
         public string Version { get; set; }
         public string Architecture { get; set; }
         public string DotNetVersion { get; set; }
@@ -261,6 +263,7 @@ namespace SindaSoft.DependencyWalker
             this.DotNetVersion = ".NET CLR " + a.ImageRuntimeVersion;
             this.Architecture = a.GetName().ProcessorArchitecture.ToString();
             this.Name = a.GetName().Name;
+            this.FullName = a.GetName().FullName;
 
             this.FileUri = a.CodeBase; // Save assembly file location... 
             this.IsGAC = a.GlobalAssemblyCache; // Is it GAC ? 
@@ -281,6 +284,7 @@ namespace SindaSoft.DependencyWalker
         public void CopyData(AssemblyInfo src)
         {
             this.Name = src.Name;
+            this.FullName = src.FullName;
             this.Architecture = src.Architecture;
             this.DotNetVersion = src.DotNetVersion;
             this.Error = src.Error;
@@ -298,6 +302,7 @@ namespace SindaSoft.DependencyWalker
             if (String.IsNullOrEmpty(this.Error))
             {
                 retval = identS  + String.Format("{0, -10}\n", this.Name);
+                retval += identS + String.Format("{0, -10}    Full Name: {1,-10}\n", "", this.FullName);
                 retval += identS + String.Format("{0, -10} File Version: {1,-10}\n", "", this.Version);
                 retval += identS + String.Format("{0, -10} Architecture: {1,-10}\n", "", this.Architecture);
                 retval += identS + String.Format("{0, -10}    Built for: {1,-10}\n", "", this.DotNetVersion);
