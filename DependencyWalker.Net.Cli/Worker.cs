@@ -73,7 +73,12 @@ namespace SindaSoft.DependencyWalker
             {
                 List<AssemblyInfo> ais = new List<AssemblyInfo>();
                 foreach (string fn in files)
+                {
+                    FileInfo fi = new FileInfo(fn);
+                    currentFilenameWeCheck = fi.FullName;
+
                     ais.Add(inspectAssembly(fn));
+                }
 
                 Console.WriteLine(QuickJsonSerializer.Serialize(ais));
             }
@@ -81,6 +86,9 @@ namespace SindaSoft.DependencyWalker
             {
                 foreach (string fn in files)
                 {
+                    FileInfo fi = new FileInfo(fn);
+                    currentFilenameWeCheck = fi.FullName;
+
                     AssemblyInfo ai = inspectAssembly(fn);
                     string line = ai.ToString();
                     Console.WriteLine(line);
@@ -90,6 +98,9 @@ namespace SindaSoft.DependencyWalker
 
         public void StartWithFile(string filename)
         {
+            FileInfo fi = new FileInfo(filename);
+            currentFilenameWeCheck = fi.FullName;
+
             AssemblyInfo ai = inspectAssembly(filename);
 
             if (this.json)
@@ -100,7 +111,7 @@ namespace SindaSoft.DependencyWalker
         }
 
 
-        private List<string> alreadyProcessed;
+        private Dictionary<string, AssemblyInfo> alreadyProcessed;
         /// <summary>
         /// Load assembly specified with filename and 
         /// walk through its dependencies
@@ -110,7 +121,7 @@ namespace SindaSoft.DependencyWalker
         {
             string name = aname;
             AssemblyInfo retval = new AssemblyInfo();
-            alreadyProcessed = new List<string>();
+            alreadyProcessed = new Dictionary<string, AssemblyInfo>();
             try
             {
                 Assembly a = Assembly.LoadFrom(aname);
@@ -127,15 +138,14 @@ namespace SindaSoft.DependencyWalker
                     ai.Name = an.Name;
                     retval.References.Add(ai);
 
-                    if (!alreadyProcessed.Contains(an.Name))
+                    if (!alreadyProcessed.ContainsKey(an.Name))
                     {
-                        alreadyProcessed.Add(an.Name);
+                        alreadyProcessed[an.Name] = ai;
                         inspectAssembly(ai, an);
                     }
                     else
                     {
-                        //if (!isItInGlobalAssemblyCache(an))
-                        //    CloneNodes(ref2node[an.Name], tn2);
+                        ai.CopyData(alreadyProcessed[an.Name]);
                     }
                 }
                 return retval;
@@ -173,10 +183,14 @@ namespace SindaSoft.DependencyWalker
                     AssemblyInfo tn2 = new AssemblyInfo();
                     tn2.Name = an.Name;
 
-                    if (!alreadyProcessed.Contains(an.Name))
+                    if (!alreadyProcessed.ContainsKey(an.Name))
                     {
-                        alreadyProcessed.Add(an.Name);
+                        alreadyProcessed[an.Name] = tn2;
                         inspectAssembly(tn2, an);       // Go deeply ....
+                    }
+                    else
+                    {
+                        tn2.CopyData(alreadyProcessed[an.Name]);  // Get what we already know...
                     }
                 }
             }
@@ -262,6 +276,17 @@ namespace SindaSoft.DependencyWalker
             catch
             {
             }
+        }
+
+        public void CopyData(AssemblyInfo src)
+        {
+            this.Name = src.Name;
+            this.Architecture = src.Architecture;
+            this.DotNetVersion = src.DotNetVersion;
+            this.Error = src.Error;
+            this.FileUri = src.FileUri;
+            this.IsGAC = src.IsGAC;
+            this.Version = src.Version;
         }
 
 
