@@ -21,6 +21,9 @@ namespace SindaSoft.DependencyWalker
                 return;
             }
 
+            if (a.Count == 0)
+                Console.WriteLine("Type 'DependencyWalker.Cli --help' for short help\n");
+
             using (Worker w = new Worker())
             {
                 if (a.FirstOrDefault(x => x.StartsWith("--json")) != null)
