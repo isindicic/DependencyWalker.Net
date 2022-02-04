@@ -1,11 +1,13 @@
 # Distribution / packaging
 bin/
+bin.Net4/
 Debug/
 *.ignore/
 .vs/
 
 # C# obj folder
 obj/
+obj.Net4/
 
 # C# files
 *.suo
