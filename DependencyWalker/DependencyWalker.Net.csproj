@@ -25,6 +25,7 @@
     <DebugSymbols>true</DebugSymbols>
     <ErrorReport>prompt</ErrorReport>
     <OutputPath>bin.Net4\Debug\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <ErrorReport>prompt</ErrorReport>
