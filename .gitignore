@@ -20,3 +20,5 @@ obj.Net4/
 *.pdb
 *.xml
 *.zip
+
+publish/
