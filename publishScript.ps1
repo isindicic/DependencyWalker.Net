@@ -4,7 +4,7 @@ Get-ChildItem $PSScriptRoot -Recurse -Force
 | Where-Object { $_.FullName -like "*\bin\*" }
 | Remove-Item -Recurse -Force
 
-Get-Item $PSScriptRoot\publish
+Get-Item -ErrorAction Ignore $PSScriptRoot\publish
 | Remove-Item -Recurse -Force
 
 
