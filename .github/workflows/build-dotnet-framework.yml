@@ -1,0 +1,42 @@
+name: Build .NET Framework Solution
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*"
+  pull_request:
+    branches: [master]
+
+env:
+  SOLUTION_FILE: DependencyWalker.Net.sln
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-2022
+    outputs:
+      build-path: ${{ steps.upload.outputs.upload-path }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Restore NuGet packages
+        run: nuget restore $env:SOLUTION_FILE
+
+      - name: Build with MSBuild
+        run: msbuild $env:SOLUTION_FILE /p:Configuration=Release
+
+      - name: Upload Build Artifacts
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: bin.Net4\Release
+          retention-days: 0.01
+
