@@ -134,8 +134,10 @@ namespace SindaSoft.DependencyWalker
                     if (!shouldWeIncludeIt(an))
                         continue;
 
-                    AssemblyInfo ai = new AssemblyInfo();
-                    ai.Name = an.Name;
+                    AssemblyInfo ai = new AssemblyInfo
+                    {
+                        Name = an.Name
+                    };
                     retval.References.Add(ai);
 
                     if (!alreadyProcessed.ContainsKey(an.Name))
@@ -152,9 +154,11 @@ namespace SindaSoft.DependencyWalker
             }
             catch (Exception ex)
             {
-                AssemblyInfo ai = new AssemblyInfo();
-                ai.Name = name;
-                ai.Error = ex.Message;
+                AssemblyInfo ai = new AssemblyInfo
+                {
+                    Name = name,
+                    Error = ex.Message
+                };
                 return ai;
             }
         }
@@ -180,8 +184,10 @@ namespace SindaSoft.DependencyWalker
                     if (!shouldWeIncludeIt(an))
                         continue;
 
-                    AssemblyInfo tn2 = new AssemblyInfo();
-                    tn2.Name = an.Name;
+                    AssemblyInfo tn2 = new AssemblyInfo
+                    {
+                        Name = an.Name
+                    };
 
                     if (!alreadyProcessed.ContainsKey(an.Name))
                     {
@@ -194,11 +200,13 @@ namespace SindaSoft.DependencyWalker
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception /*ex*/)
             {
-                AssemblyInfo ai = new AssemblyInfo();
-                ai.Name = name;
-                ai.Error = ex.Message;
+                //AssemblyInfo ai = new AssemblyInfo
+                //{
+                //    Name = name,
+                //    Error = ex.Message
+                //};
             }
         }
 
@@ -296,12 +304,12 @@ namespace SindaSoft.DependencyWalker
 
         public string ToString(int ident)
         {
-            string retval = null;
             string identS = new string(' ', ident * 25);
 
+            string retval;
             if (String.IsNullOrEmpty(this.Error))
             {
-                retval = identS  + String.Format("{0, -10}\n", this.Name);
+                retval = identS + String.Format("{0, -10}\n", this.Name);
                 retval += identS + String.Format("{0, -10}    Full Name: {1,-10}\n", "", this.FullName);
                 retval += identS + String.Format("{0, -10} File Version: {1,-10}\n", "", this.Version);
                 retval += identS + String.Format("{0, -10} Architecture: {1,-10}\n", "", this.Architecture);

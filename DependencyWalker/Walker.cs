@@ -293,8 +293,10 @@ namespace SindaSoft.DependencyWalker
 
         private List<string> treeNode2refList(TreeNode tn)
         {
-            List<string> retval = new List<string>();
-            retval.Add( tn.Text );
+            List<string> retval = new List<string>
+            {
+                tn.Text
+            };
             TreeNode t = tn.Parent;
 
             while (t != null)
