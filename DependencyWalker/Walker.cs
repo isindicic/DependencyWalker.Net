@@ -55,7 +55,7 @@ namespace SindaSoft.DependencyWalker
                 currentDomain.AssemblyResolve -= new ResolveEventHandler(currentDomain_AssemblyResolve);
             }
             catch
-            { 
+            {
             }
         }
 
@@ -73,7 +73,7 @@ namespace SindaSoft.DependencyWalker
             refass2dotnetversion = new Dictionary<string, string>();
             type2ass = new Dictionary<string, string>();
             errors = new Dictionary<string, string>();
-            
+
             // Clear tree control
             parent.tvReferencesTree.Nodes.Clear();
 
@@ -125,7 +125,7 @@ namespace SindaSoft.DependencyWalker
                     }
                 }
 
-                foreach(Type t in a.GetTypes())
+                foreach (Type t in a.GetTypes())
                     type2ass[getCSharpFromType(t)] = name;
             }
             catch (System.Reflection.ReflectionTypeLoadException ex)
@@ -163,9 +163,15 @@ namespace SindaSoft.DependencyWalker
             {
                 Assembly a = Assembly.Load(anr.FullName);
 
-                refass2filename[anr.Name] = a.CodeBase; // Save assembly file location... 
-                refass2isGAC[anr.Name] = a.GlobalAssemblyCache; // Is it GAC ? 
+#if NET8_0_OR_GREATER
+                refass2filename[anr.Name] = a.Location; // Save assembly file location...
+                refass2isGAC[anr.Name] = false; // No GAC in .NET 8+
                 refass2dotnetversion[anr.Name] = ".NET CLR " + a.ImageRuntimeVersion;
+#else
+                refass2filename[anr.Name] = a.CodeBase; // Save assembly file location...
+                refass2isGAC[anr.Name] = a.GlobalAssemblyCache; // Is it GAC ?
+                refass2dotnetversion[anr.Name] = ".NET CLR " + a.ImageRuntimeVersion;
+#endif
 
                 try
                 {
@@ -174,10 +180,10 @@ namespace SindaSoft.DependencyWalker
                                      .OfType<System.Runtime.Versioning.TargetFrameworkAttribute>()
                                      .First();
 
-                    refass2dotnetversion[anr.Name] =  attribute.FrameworkDisplayName;
+                    refass2dotnetversion[anr.Name] = attribute.FrameworkDisplayName;
                 }
-                catch 
-                { 
+                catch
+                {
                 }
 
                 AssemblyName[] anames = a.GetReferencedAssemblies();
@@ -216,7 +222,7 @@ namespace SindaSoft.DependencyWalker
                 errors[tn.Text] = String.Join("--->", treeNode2refList(tn).ToArray()) + "\r\n" + ex.ToString();
 
                 errors[tn.Text] += "\r\n--- Loader exceptions -----\r\n";
-                foreach(Exception eee in ex.LoaderExceptions)
+                foreach (Exception eee in ex.LoaderExceptions)
                     errors[tn.Text] += "\t" + eee.ToString() + "\r\n";
 
                 expandTree2Node(tn);
@@ -242,7 +248,7 @@ namespace SindaSoft.DependencyWalker
                 string className = name.Substring(0, t.Name.IndexOf('`'));
                 List<string> args = new List<string>();
                 foreach (Type arg in t.GetGenericArguments())
-                    args.Add( getCSharpFromType(arg) );
+                    args.Add(getCSharpFromType(arg));
                 return className + "<" + String.Join(",", args.ToArray()) + ">";
             }
             else
@@ -268,8 +274,8 @@ namespace SindaSoft.DependencyWalker
 
         private bool isItInGlobalAssemblyCache(AssemblyName an)
         {
-#if NETCOREAPP
-            return true;    // No GAC in .NET Core
+#if NET8_0_OR_GREATER
+            return false;
 #else
             try
             {
@@ -301,7 +307,7 @@ namespace SindaSoft.DependencyWalker
 
             while (t != null)
             {
-                retval.Insert(0,  t.Text);
+                retval.Insert(0, t.Text);
                 t = t.Parent;
             }
             return retval;

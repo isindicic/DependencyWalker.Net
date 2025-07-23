@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -104,7 +104,7 @@ namespace SindaSoft.DependencyWalker
             AssemblyInfo ai = inspectAssembly(filename);
 
             if (this.json)
-                Console.WriteLine( QuickJsonSerializer.Serialize(ai) );
+                Console.WriteLine(QuickJsonSerializer.Serialize(ai));
             else
                 Console.WriteLine(ai.ToString());
 
@@ -220,8 +220,8 @@ namespace SindaSoft.DependencyWalker
 
         private bool isItInGlobalAssemblyCache(AssemblyName an)
         {
-#if NETCOREAPP
-            return true;    // No GAC in .NET Core
+#if NET8_0_OR_GREATER
+            return false;    // No GAC in .NET Core
 #else
             try
             {
@@ -269,13 +269,20 @@ namespace SindaSoft.DependencyWalker
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(a.Location);
             this.Version = fvi.FileVersion;
             this.DotNetVersion = ".NET CLR " + a.ImageRuntimeVersion;
+#if NET8_0_OR_GREATER
+            this.Architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString();
+#else
             this.Architecture = a.GetName().ProcessorArchitecture.ToString();
+#endif
             this.Name = a.GetName().Name;
             this.FullName = a.GetName().FullName;
-
-            this.FileUri = a.CodeBase; // Save assembly file location... 
-            this.IsGAC = a.GlobalAssemblyCache; // Is it GAC ? 
-
+#if NET8_0_OR_GREATER
+            this.FileUri = a.Location; // Use Location instead of CodeBase
+            this.IsGAC = false; // No GAC in .NET 8+
+#else
+            this.FileUri = a.CodeBase; // Save assembly file location...
+            this.IsGAC = a.GlobalAssemblyCache; // Is it GAC ?
+#endif
             try
             {
                 // This work only for .NET > 4 .. Try it...
