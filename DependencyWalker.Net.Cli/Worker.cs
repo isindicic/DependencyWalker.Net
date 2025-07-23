@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -171,10 +171,9 @@ namespace SindaSoft.DependencyWalker
         /// <param name="anr"></param>
         private void inspectAssembly(AssemblyInfo tn, AssemblyName anr)
         {
-            string name = "";
             try
             {
-                name = anr.Name;
+                string name = anr.Name;
                 Assembly a = Assembly.Load(anr.FullName);
                 tn.FillData(a);
 
