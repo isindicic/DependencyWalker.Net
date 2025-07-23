@@ -1,0 +1,71 @@
+name: Build .NET Framework Solution
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*"
+  pull_request:
+    branches: [master]
+
+env:
+  SOLUTION_FILE_NET_FRAMEWORK: DependencyWalker.Net.sln
+  SOLUTION_FILE_NET: DependencyWalker.Net8.sln
+
+jobs:
+
+  build-dotnet:
+    name: Build .NET
+    runs-on: windows-2022
+    outputs:
+      build-path: ${{ steps.upload.outputs.upload-path }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Restore NuGet packages
+        run: nuget restore $env:SOLUTION_FILE_NET
+
+      - name: Build with MSBuild
+        run: msbuild $env:SOLUTION_FILE_NET /p:Configuration=Release
+
+      - name: Upload Build Artifacts
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net
+          path: bin.Net\Release
+          retention-days: 0.01
+
+  build-dotnet-framework:
+    name: Build .NET Framework
+    runs-on: windows-2022
+    outputs:
+      build-path: ${{ steps.upload.outputs.upload-path }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Restore NuGet packages
+        run: nuget restore $env:SOLUTION_FILE_NET_FRAMEWORK
+
+      - name: Build with MSBuild
+        run: msbuild $env:SOLUTION_FILE_NET_FRAMEWORK /p:Configuration=Release
+
+      - name: Upload Build Artifacts
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net-framework
+          path: bin.Net4\Release
+          retention-days: 0.01
+
