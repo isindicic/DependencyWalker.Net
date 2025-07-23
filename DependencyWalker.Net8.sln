@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyWalker.Net5", "DependencyWalker\DependencyWalker.Net5.csproj", "{846ED2DD-88A4-4DD6-926A-C0263E35A4A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyWalker.Net8", "DependencyWalker\DependencyWalker.Net8.csproj", "{846ED2DD-88A4-4DD6-926A-C0263E35A4A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyWalker.Net5.Cli", "DependencyWalker.Net.Cli\DependencyWalker.Net5.Cli.csproj", "{4BFCCAE9-0F7D-4AC5-956D-57346837B415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyWalker.Net8.Cli", "DependencyWalker.Net.Cli\DependencyWalker.Net8.Cli.csproj", "{4BFCCAE9-0F7D-4AC5-956D-57346837B415}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
