@@ -35,11 +35,19 @@ jobs:
         run: msbuild $env:SOLUTION_FILE_NET /p:Configuration=Release
 
       - name: Upload Build Artifacts
-        id: upload
+        id: upload-net
         uses: actions/upload-artifact@v4
         with:
           name: build-output-net
-          path: bin.Net\Release
+          path: DependencyWalker\bin\Release\net8.0-windows
+          retention-days: 0.01
+
+      - name: Upload Build Artifacts CLI
+        id: upload-net-cli
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net-cli
+          path: DependencyWalker.Net.Cli\bin\Release\net8.0
           retention-days: 0.01
 
   build-dotnet-framework:
@@ -62,10 +70,18 @@ jobs:
         run: msbuild $env:SOLUTION_FILE_NET_FRAMEWORK /p:Configuration=Release
 
       - name: Upload Build Artifacts
-        id: upload
+        id: upload-net-framework
         uses: actions/upload-artifact@v4
         with:
           name: build-output-net-framework
-          path: bin.Net4\Release
+          path: DependencyWalker\bin.Net4\Release
+          retention-days: 0.01
+
+      - name: Upload Build Artifacts CLI
+        id: upload-net-framework-cli
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net-framework-cli
+          path: DependencyWalker.Net.Cli\bin.Net4\Release
           retention-days: 0.01
 
