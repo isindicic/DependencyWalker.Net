@@ -116,10 +116,13 @@ jobs:
           name: build-output-net-cli
           path: output\DependencyWalker.Cli.Net8
 
-      - name: Zip Build Output
-        # remove all .pdb files and build zip
+      - name: Remove pdb files
+        shell: pwsh
         run: |
-          powershell Get-ChildItem -Recurse -Filter *.pdb | ForEach-Object { if ($_) { Remove-Item -Path $_.FullName -Force } }
+          Get-ChildItem -Recurse -Filter *.pdb | ForEach-Object { if ($_) { Remove-Item -Path $_.FullName -Force } }
+
+      - name: Zip Build Output
+        run: |
           $Tag = "${{ github.ref_name }}"
           $ZipName = "DependencyWalker_NET_${Tag}.zip"
           powershell Compress-Archive -Path output\*.exe, output\DependencyWalker.Net8, output\DependencyWalker.Cli.Net8 -DestinationPath $ZipName
