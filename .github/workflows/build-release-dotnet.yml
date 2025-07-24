@@ -1,4 +1,4 @@
-name: Build .NET Framework Solution
+name: Build .NET Solution
 
 on:
   push:
@@ -117,7 +117,9 @@ jobs:
           path: output\DependencyWalker.Cli.Net8
 
       - name: Zip Build Output
+        # remove .pdb files and build zip
         run: |
+          powershell Remove-Item -Path output\*.pdb -Recurse -Force
           $Tag = "${{ github.ref_name }}"
           $ZipName = "DependencyWalker_NET_${Tag}.zip"
           powershell Compress-Archive -Path output\*.exe, output\DependencyWalker.Net8, output\DependencyWalker.Cli.Net8 -DestinationPath $ZipName
