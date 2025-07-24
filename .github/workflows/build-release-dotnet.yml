@@ -85,17 +85,23 @@ jobs:
           path: DependencyWalker.Net.Cli\bin.Net4\Release
           retention-days: 0.01
 
-  release-dotnet-framework:
-    name: Release .NET Framework
-    needs: build-dotnet-framework
+  release:
+    name: Release
+    needs: [build-dotnet-framework, build-dotnet-framework-cli]
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: windows-2022
 
     steps:
-      - name: Download Build Artifact
+      - name: Download Build .NET Framework Artifact
         uses: actions/download-artifact@v4
         with:
           name: build-output-net-framework
+          path: output
+
+      - name: Download Build .NET Framework CLI Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-net-framework-cli
           path: output
 
       - name: Zip Build Output
