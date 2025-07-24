@@ -87,7 +87,7 @@ jobs:
 
   release:
     name: Release
-    needs: [build-dotnet-framework, build-dotnet-framework-cli]
+    needs: build-dotnet-framework
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: windows-2022
 
