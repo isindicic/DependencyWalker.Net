@@ -87,7 +87,7 @@ jobs:
 
   release:
     name: Release
-    needs: build-dotnet-framework
+    needs: [build-dotnet, build-dotnet-framework]
     if: startsWith(github.ref, 'refs/tags/')
     runs-on: windows-2022
 
@@ -104,11 +104,23 @@ jobs:
           name: build-output-net-framework-cli
           path: output
 
+      - name: Download Build .NET Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-net
+          path: output\DependencyWalker.Net8
+
+      - name: Download Build .NET CLI Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-net-cli
+          path: output\DependencyWalker.Cli.Net8
+
       - name: Zip Build Output
         run: |
           $Tag = "${{ github.ref_name }}"
           $ZipName = "DependencyWalker_NET_${Tag}.zip"
-          powershell Compress-Archive -Path output\*.exe -DestinationPath $ZipName
+          powershell Compress-Archive -Path output\*.exe, output\DependencyWalker.Net8, output\DependencyWalker.Cli.Net8 -DestinationPath $ZipName
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
