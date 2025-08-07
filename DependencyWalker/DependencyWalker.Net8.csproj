@@ -1,19 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>WinExe</OutputType>
     <RootNamespace>SindaSoft.DependencyWalker</RootNamespace>
     <AssemblyName>DependencyWalker</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>dw.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="MainWindow.cs">

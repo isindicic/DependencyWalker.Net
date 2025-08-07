@@ -104,7 +104,7 @@ namespace SindaSoft.DependencyWalker
             AssemblyInfo ai = inspectAssembly(filename);
 
             if (this.json)
-                Console.WriteLine( QuickJsonSerializer.Serialize(ai) );
+                Console.WriteLine(QuickJsonSerializer.Serialize(ai));
             else
                 Console.WriteLine(ai.ToString());
 
@@ -134,8 +134,10 @@ namespace SindaSoft.DependencyWalker
                     if (!shouldWeIncludeIt(an))
                         continue;
 
-                    AssemblyInfo ai = new AssemblyInfo();
-                    ai.Name = an.Name;
+                    AssemblyInfo ai = new AssemblyInfo
+                    {
+                        Name = an.Name
+                    };
                     retval.References.Add(ai);
 
                     if (!alreadyProcessed.ContainsKey(an.Name))
@@ -152,9 +154,11 @@ namespace SindaSoft.DependencyWalker
             }
             catch (Exception ex)
             {
-                AssemblyInfo ai = new AssemblyInfo();
-                ai.Name = name;
-                ai.Error = ex.Message;
+                AssemblyInfo ai = new AssemblyInfo
+                {
+                    Name = name,
+                    Error = ex.Message
+                };
                 return ai;
             }
         }
@@ -167,10 +171,9 @@ namespace SindaSoft.DependencyWalker
         /// <param name="anr"></param>
         private void inspectAssembly(AssemblyInfo tn, AssemblyName anr)
         {
-            string name = "";
             try
             {
-                name = anr.Name;
+                string name = anr.Name;
                 Assembly a = Assembly.Load(anr.FullName);
                 tn.FillData(a);
 
@@ -180,8 +183,10 @@ namespace SindaSoft.DependencyWalker
                     if (!shouldWeIncludeIt(an))
                         continue;
 
-                    AssemblyInfo tn2 = new AssemblyInfo();
-                    tn2.Name = an.Name;
+                    AssemblyInfo tn2 = new AssemblyInfo
+                    {
+                        Name = an.Name
+                    };
 
                     if (!alreadyProcessed.ContainsKey(an.Name))
                     {
@@ -194,11 +199,13 @@ namespace SindaSoft.DependencyWalker
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception /*ex*/)
             {
-                AssemblyInfo ai = new AssemblyInfo();
-                ai.Name = name;
-                ai.Error = ex.Message;
+                //AssemblyInfo ai = new AssemblyInfo
+                //{
+                //    Name = name,
+                //    Error = ex.Message
+                //};
             }
         }
 
@@ -212,8 +219,8 @@ namespace SindaSoft.DependencyWalker
 
         private bool isItInGlobalAssemblyCache(AssemblyName an)
         {
-#if NETCOREAPP
-            return true;    // No GAC in .NET Core
+#if NET8_0_OR_GREATER
+            return false;    // No GAC in .NET Core
 #else
             try
             {
@@ -261,13 +268,20 @@ namespace SindaSoft.DependencyWalker
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(a.Location);
             this.Version = fvi.FileVersion;
             this.DotNetVersion = ".NET CLR " + a.ImageRuntimeVersion;
+#if NET8_0_OR_GREATER
+            this.Architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString();
+#else
             this.Architecture = a.GetName().ProcessorArchitecture.ToString();
+#endif
             this.Name = a.GetName().Name;
             this.FullName = a.GetName().FullName;
-
-            this.FileUri = a.CodeBase; // Save assembly file location... 
-            this.IsGAC = a.GlobalAssemblyCache; // Is it GAC ? 
-
+#if NET8_0_OR_GREATER
+            this.FileUri = a.Location; // Use Location instead of CodeBase
+            this.IsGAC = false; // No GAC in .NET 8+
+#else
+            this.FileUri = a.CodeBase; // Save assembly file location...
+            this.IsGAC = a.GlobalAssemblyCache; // Is it GAC ?
+#endif
             try
             {
                 // This work only for .NET > 4 .. Try it...
@@ -296,12 +310,12 @@ namespace SindaSoft.DependencyWalker
 
         public string ToString(int ident)
         {
-            string retval = null;
             string identS = new string(' ', ident * 25);
 
+            string retval;
             if (String.IsNullOrEmpty(this.Error))
             {
-                retval = identS  + String.Format("{0, -10}\n", this.Name);
+                retval = identS + String.Format("{0, -10}\n", this.Name);
                 retval += identS + String.Format("{0, -10}    Full Name: {1,-10}\n", "", this.FullName);
                 retval += identS + String.Format("{0, -10} File Version: {1,-10}\n", "", this.Version);
                 retval += identS + String.Format("{0, -10} Architecture: {1,-10}\n", "", this.Architecture);

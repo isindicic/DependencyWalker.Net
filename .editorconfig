@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE1006: Styles d'affectation de noms
+dotnet_diagnostic.IDE1006.severity = silent

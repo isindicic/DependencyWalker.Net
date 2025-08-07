@@ -134,11 +134,13 @@ namespace SindaSoft.DependencyWalker
             }
 
             GC.Collect();
-            GC.WaitForPendingFinalizers();  
+            GC.WaitForPendingFinalizers();
 
-            w = new Walker(a);
-            w.parent = this;
-            w.includeGAC = cbShowGac.Checked;
+            w = new Walker(a)
+            {
+                parent = this,
+                includeGAC = cbShowGac.Checked
+            };
             w.runIt();
             
             tssLoadedInfo.Text =   (w.refass.Count  + w.listOfFilenames2Check.Count) +  " modules/" + w.type2ass.Count + " types";
@@ -185,11 +187,13 @@ namespace SindaSoft.DependencyWalker
 
         private void btnSelectFiles_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Multiselect = true;
-            ofd.Title = "Please select one or more .NET assemblies to investigate dependencies";
-            ofd.Filter = ".NET assemblies (*.exe;*.dll)|*.exe;*.dll|" +
-                         "All files (*.*)|*.*";
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Multiselect = true,
+                Title = "Please select one or more .NET assemblies to investigate dependencies",
+                Filter = ".NET assemblies (*.exe;*.dll)|*.exe;*.dll|" +
+                             "All files (*.*)|*.*"
+            };
 
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -242,7 +246,7 @@ namespace SindaSoft.DependencyWalker
         }
 
         private TreeNode firstNode;
-        private bool isColored = default(bool);
+        private bool isColored = default;
         private string prviousSearchString = string.Empty;
 
         private void searchTxt_TextChanged(object sender, EventArgs e)
@@ -255,7 +259,7 @@ namespace SindaSoft.DependencyWalker
                 return;
             }
 
-            firstNode = default(TreeNode);
+            firstNode = default;
             var searchString = searchTxt.Text;
             
             // ClearColor

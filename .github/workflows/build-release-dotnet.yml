@@ -1,0 +1,146 @@
+name: Build .NET Solution
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*"
+  pull_request:
+    branches: [master]
+
+env:
+  SOLUTION_FILE_NET_FRAMEWORK: DependencyWalker.Net.sln
+  SOLUTION_FILE_NET: DependencyWalker.Net8.sln
+
+jobs:
+
+  build-dotnet:
+    name: Build .NET
+    runs-on: windows-2022
+    outputs:
+      build-path: ${{ steps.upload.outputs.upload-path }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Restore NuGet packages
+        run: nuget restore $env:SOLUTION_FILE_NET
+
+      - name: Build with MSBuild
+        run: msbuild $env:SOLUTION_FILE_NET /p:Configuration=Release
+
+      - name: Upload Build Artifacts
+        id: upload-net
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net
+          path: DependencyWalker\bin\Release\net8.0-windows
+          retention-days: 0.01
+
+      - name: Upload Build Artifacts CLI
+        id: upload-net-cli
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net-cli
+          path: DependencyWalker.Net.Cli\bin\Release\net8.0
+          retention-days: 0.01
+
+  build-dotnet-framework:
+    name: Build .NET Framework
+    runs-on: windows-2022
+    outputs:
+      build-path: ${{ steps.upload.outputs.upload-path }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Restore NuGet packages
+        run: nuget restore $env:SOLUTION_FILE_NET_FRAMEWORK
+
+      - name: Build with MSBuild
+        run: msbuild $env:SOLUTION_FILE_NET_FRAMEWORK /p:Configuration=Release
+
+      - name: Upload Build Artifacts
+        id: upload-net-framework
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net-framework
+          path: DependencyWalker\bin.Net4\Release
+          retention-days: 0.01
+
+      - name: Upload Build Artifacts CLI
+        id: upload-net-framework-cli
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output-net-framework-cli
+          path: DependencyWalker.Net.Cli\bin.Net4\Release
+          retention-days: 0.01
+
+  release:
+    name: Release
+    needs: [build-dotnet, build-dotnet-framework]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: windows-2022
+
+    steps:
+      - name: Download Build .NET Framework Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-net-framework
+          path: output
+
+      - name: Download Build .NET Framework CLI Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-net-framework-cli
+          path: output
+
+      - name: Download Build .NET Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-net
+          path: output\DependencyWalker.Net8
+
+      - name: Download Build .NET CLI Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output-net-cli
+          path: output\DependencyWalker.Cli.Net8
+
+      - name: Remove pdb files
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Filter *.pdb | ForEach-Object { if ($_) { Remove-Item -Path $_.FullName -Force } }
+
+      - name: Zip Build Output
+        run: |
+          $Tag = "${{ github.ref_name }}"
+          $ZipName = "DependencyWalker_NET_${Tag}.zip"
+          powershell Compress-Archive -Path output\*.exe, output\DependencyWalker.Net8, output\DependencyWalker.Cli.Net8 -DestinationPath $ZipName
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: DependencyWalker for .NET ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: DependencyWalker_NET_${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
